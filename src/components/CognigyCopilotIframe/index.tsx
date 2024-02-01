@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useWidgetApi } from '../../contexts/WidgetApiContext';
 
+import axios from 'axios';
+
 const CognigyCopilotIframe = () => {
     const [copilotUrl, setCopilotUrl] = useState('');
     const { widgetApi, interactionId, apiInteractionData } = useWidgetApi();
@@ -22,25 +24,58 @@ const CognigyCopilotIframe = () => {
         console.log('CognigyCopilot getInteractionData=======> ', apiInteractionData);
         console.log('CognigyCopilot getInteractionData type=======> ', typeof apiInteractionData);
 
-        let ENGAGEMENT_PARAMETERS = apiInteractionData?.intrinsics?.ENGAGEMENT_PARAMETERS;
+        const interactionChannel = apiInteractionData?.channel;
 
-        console.log('ENGAGEMENT_PARAMETERS --->', ENGAGEMENT_PARAMETERS);
+        if (interactionChannel === 'VOICE') {
+            let intId = apiInteractionData?.originatingAddress;
+            let data = JSON.stringify({
+                dataSource: 'mongodb-atlas',
+                database: 'avayaocf-qnamaker',
+                collection: 'cognigy-copilot',
+                filter: {
+                    _id: intId,
+                },
+            });
 
-        if (ENGAGEMENT_PARAMETERS) {
-            let engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
-            let urlToken = engObj?.urlToken;
-            let userId = engObj?.userId;
-            let sessionId = engObj?.sessionId;
-            let copilot = engObj?.copilot;
-            console.log('Engagement object==> ', engObj);
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'https://data.mongodb-api.com/app/avayaocf-vrral/endpoint/data/v1/action/find',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: data,
+            };
 
-            console.log('Engagement engObj?.urlToken==> ', urlToken);
-            console.log('Engagement engObj?.userId==> ', userId);
-            console.log('Engagement engObj?.sessionId==> ', sessionId);
-            console.log('Engagement engObj?.copilot==> ', copilot);
-            console.log('Engagement engObj?.copilot type ==> ', typeof copilot);
+            axios
+                .request(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            let ENGAGEMENT_PARAMETERS = apiInteractionData?.intrinsics?.ENGAGEMENT_PARAMETERS;
 
-            setCopilotUrl(copilot);
+            console.log('ENGAGEMENT_PARAMETERS --->', ENGAGEMENT_PARAMETERS);
+
+            if (ENGAGEMENT_PARAMETERS) {
+                let engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
+                let urlToken = engObj?.urlToken;
+                let userId = engObj?.userId;
+                let sessionId = engObj?.sessionId;
+                let copilot = engObj?.copilot;
+                console.log('Engagement object==> ', engObj);
+
+                console.log('Engagement engObj?.urlToken==> ', urlToken);
+                console.log('Engagement engObj?.userId==> ', userId);
+                console.log('Engagement engObj?.sessionId==> ', sessionId);
+                console.log('Engagement engObj?.copilot==> ', copilot);
+                console.log('Engagement engObj?.copilot type ==> ', typeof copilot);
+
+                setCopilotUrl(copilot);
+            }
         }
     }, [apiInteractionData]);
 
