@@ -20,7 +20,7 @@ const CognigyCopilotIframe = () => {
     // console.log('CognigyCopilot getInteractionData=======> ', interactionData);
 
     useEffect(() => {
-        if (apiInteractionData !== null || apiInteractionData !== undefined) {
+        if (apiInteractionData !== null && apiInteractionData !== undefined) {
             // let interData = widgetApi?.getInteractionData();
             console.log('CognigyCopilot getInteractionData=======> ', apiInteractionData);
             console.log(
