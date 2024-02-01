@@ -121,7 +121,8 @@ const CognigyCopilotIframe = () => {
             axios
                 .request(config)
                 .then((response) => {
-                    console.log(JSON.stringify(response.data));
+                    // console.log(JSON.stringify(response.data));
+                    console.log('Copilot api response==> ', response.data);
                     let copilotUrl = response.data.documents[0].copilot;
                     console.log('Copilot url through api==> ', copilotUrl);
                     setCopilotUrl(copilotUrl);
