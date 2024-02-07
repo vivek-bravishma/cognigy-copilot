@@ -19,6 +19,10 @@ const CognigyCopilotIframe = () => {
     // let interData = widgetApi?.getInteractionData();
     // console.log('CognigyCopilot getInteractionData=======> ', interactionData);
 
+    function handleMessage(event) {
+        alert('Message from inner iframe: ' + event.data);
+    } // Add event listener for message from inner iframeswindow.addEventListener("message", handleMessage, false);
+
     useEffect(() => {
         if (apiInteractionData !== null && apiInteractionData !== undefined) {
             // let interData = widgetApi?.getInteractionData();
