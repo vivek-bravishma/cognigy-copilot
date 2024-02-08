@@ -21,6 +21,7 @@ const CognigyCopilotIframe = () => {
 
     function handleMessage(event) {
         alert('Message from inner iframe: ' + event.data);
+        console.log('Message from inner iframe: ', event.data);
     } // Add event listener for message from inner iframeswindow.addEventListener("message", handleMessage, false);
 
     (window as any).handleMessage = handleMessage;
