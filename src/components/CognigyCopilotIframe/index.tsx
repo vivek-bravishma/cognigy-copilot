@@ -37,6 +37,8 @@ const CognigyCopilotIframe = () => {
 
             const interactionChannel = apiInteractionData?.channel;
 
+            console.log('is interaction channel voice?==> ', interactionChannel === 'VOICE');
+
             // if (interactionChannel === 'VOICE') {
             //     let intId = apiInteractionData?.originatingAddress;
             //     let data = JSON.stringify({
@@ -88,6 +90,8 @@ const CognigyCopilotIframe = () => {
             //         setCopilotUrl(copilot);
             //     }
             // }
+
+            ////////
 
             if (interactionChannel === 'VOICE') {
                 // let intId = apiInteractionData?.originatingAddress;
