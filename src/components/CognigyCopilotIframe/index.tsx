@@ -89,6 +89,66 @@ const CognigyCopilotIframe = () => {
             //     }
             // }
 
+            if (interactionChannel === 'VOICE') {
+                // let intId = apiInteractionData?.originatingAddress;
+                let ENGAGEMENT_PARAMETERS = apiInteractionData?.intrinsics?.ENGAGEMENT_PARAMETERS;
+                let engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
+
+                let copilotUrlSessionId = engObj?.copiloturl_sessionid;
+
+                let data = JSON.stringify({
+                    dataSource: 'mongodb-atlas',
+                    database: 'avayaocf-qnamaker',
+                    collection: 'cognigy-copilot',
+                    filter: {
+                        _id: copilotUrlSessionId,
+                    },
+                });
+
+                let config = {
+                    method: 'post',
+                    maxBodyLength: Infinity,
+                    url: 'https://data.mongodb-api.com/app/avayaocf-vrral/endpoint/data/v1/action/find',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    data: data,
+                };
+
+                axios
+                    .request(config)
+                    .then((response) => {
+                        console.log(
+                            'response from mongodb call from voice => ',
+                            JSON.stringify(response.data),
+                        );
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                let ENGAGEMENT_PARAMETERS = apiInteractionData?.intrinsics?.ENGAGEMENT_PARAMETERS;
+
+                console.log('ENGAGEMENT_PARAMETERS --->', ENGAGEMENT_PARAMETERS);
+
+                if (ENGAGEMENT_PARAMETERS) {
+                    let engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
+                    let urlToken = engObj?.urlToken;
+                    let userId = engObj?.userId;
+                    let sessionId = engObj?.sessionId;
+                    let copilot = engObj?.copilot;
+                    console.log('Engagement object==> ', engObj);
+
+                    console.log('Engagement engObj?.urlToken==> ', urlToken);
+                    console.log('Engagement engObj?.userId==> ', userId);
+                    console.log('Engagement engObj?.sessionId==> ', sessionId);
+                    console.log('Engagement engObj?.copilot==> ', copilot);
+                    console.log('Engagement engObj?.copilot type ==> ', typeof copilot);
+
+                    setCopilotUrl(copilot);
+                }
+            }
+
             let ENGAGEMENT_PARAMETERS = apiInteractionData?.intrinsics?.ENGAGEMENT_PARAMETERS;
 
             console.log('ENGAGEMENT_PARAMETERS --->', ENGAGEMENT_PARAMETERS);
