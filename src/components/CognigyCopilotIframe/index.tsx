@@ -96,9 +96,15 @@ const CognigyCopilotIframe = () => {
             if (interactionChannel === 'VOICE') {
                 // let intId = apiInteractionData?.originatingAddress;
                 let ENGAGEMENT_PARAMETERS = apiInteractionData?.intrinsics?.ENGAGEMENT_PARAMETERS;
-                let engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
+                let engObj: any = null;
+                let copilotUrlSessionId: any = null;
 
-                let copilotUrlSessionId = engObj?.copiloturl_sessionid;
+                if (!ENGAGEMENT_PARAMETERS) {
+                    copilotUrlSessionId = apiInteractionData?.intrinsics?.CALLER_NUMBER;
+                } else {
+                    engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
+                    copilotUrlSessionId = engObj?.copiloturl_sessionid;
+                }
 
                 let data = JSON.stringify({
                     dataSource: 'mongodb-atlas',
