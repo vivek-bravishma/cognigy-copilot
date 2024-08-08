@@ -5,17 +5,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Grandchild 1 HTML</title>
         <script>
+            console.log('hi');
             window.addEventListener('message', (event) => {
+                console.log('adding event listener in grandchild 1==> ', event);
                 if (event.data.type === 'SET_WIDGET_API') {
                     window.widgetApi = event.data.api;
 
                     // Example usage
-                    window.widgetApi.getUserDetails();
+                    window.widgetApi?.getInteractionData();
+                    console.log('getInteractionData from grandchild1');
                 }
             });
         </script>
     </head>
     <body>
+        grandchild1 iframe
+
         <iframe
             src="https://swapnil.lab.bravishma.com/grandchild2.html"
             width="200"

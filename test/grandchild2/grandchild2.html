@@ -10,7 +10,8 @@
                     window.widgetApi = event.data.api;
 
                     // Example usage
-                    window.widgetApi.sendMessage();
+                    window.widgetApi?.sendChatMessage(selectedForm.value);
+                    console.log('sending message from grandchild2');
                 }
             });
         </script>

@@ -4,7 +4,7 @@ import { useWidgetApi } from '../../contexts/WidgetApiContext';
 import axios from 'axios';
 
 const CognigyCopilotIframe = () => {
-    const [copilotUrl, setCopilotUrl] = useState('');
+    const [copilotUrl, setCopilotUrl] = useState('https://shubham.lab.bravishma.com/child.html');
     const { widgetApi, interactionId, apiInteractionData } = useWidgetApi();
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
@@ -100,7 +100,7 @@ const CognigyCopilotIframe = () => {
                         let copilotUrl = response.data.documents[0].copilot;
                         console.log('Copilot url through api==> ', copilotUrl);
                         // setCopilotUrl(copilotUrl);
-                        setCopilotUrl('https://abhinandan.lab.bravishma.com/parent.html');
+                        setCopilotUrl('https://shubham.lab.bravishma.com/child.html');
                     })
                     .catch((error) => {
                         console.log('Error fetching copilot url for Voice from mongodb==> ', error);
@@ -125,7 +125,7 @@ const CognigyCopilotIframe = () => {
                     console.log('Engagement engObj?.copilot type ==> ', typeof copilot);
 
                     // setCopilotUrl(copilot);
-                    setCopilotUrl('https://abhinandan.lab.bravishma.com/parent.html');
+                    setCopilotUrl('https://shubham.lab.bravishma.com/child.html');
                 }
             }
         }
