@@ -20,7 +20,7 @@
                     if (iframe && iframe.contentWindow) {
                         iframe.contentWindow.postMessage(
                             { type: 'SET_WIDGET_API', api: widgetApi },
-                            'http://127.0.0.1:5500', // Target origin of the child iframe
+                            'https://shubham.lab.bravishma.com/child.html', // Target origin of the child iframe
                         );
                     }
                 }
@@ -29,7 +29,7 @@
     </head>
     <body>
         <iframe
-            src="http://127.0.0.1:5500/child.html"
+            src="https://shubham.lab.bravishma.com/child.html"
             width="600"
             height="400"
             title="Child Iframe"
