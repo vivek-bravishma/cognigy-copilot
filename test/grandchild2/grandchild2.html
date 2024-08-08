@@ -17,20 +17,20 @@
                 }
             });
 
-            function sendMessageToParent(functionName, data) {
+            function sendMessageToParent(functionName, functionWithPayload) {
                 window.parent.postMessage(
-                    { type: 'EXECUTE_API', functionName, data },
+                    { type: 'EXECUTE_API', functionName, functionWithPayload },
                     'https://shubham.lab.bravishma.com', // Adjust the origin to match the parent
                 );
             }
 
             // Example usage
-            sendMessageToParent('sendChatMessage', { message: 'Hi there!' });
+            // sendMessageToParent('sendChatMessage', 'sendChatMessage(`hi there`)');
         </script>
     </head>
     <body>
         <h3>Grandchild 2</h3>
-        <button onclick="sendMessageToParent('sendChatMessage', { message: 'Hi there!' })">
+        <button onclick="sendMessageToParent('sendChatMessage', 'sendChatMessage(`hi there`)')">
             send message
         </button>
     </body>

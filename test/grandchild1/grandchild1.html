@@ -16,21 +16,23 @@
                 }
             });
 
-            function sendMessageToParent(functionName, data) {
+            function sendMessageToParent(functionName, functionWithPayload) {
                 window.parent.postMessage(
-                    { type: 'EXECUTE_API', functionName, data },
+                    { type: 'EXECUTE_API', functionName, functionWithPayload },
                     '*', // Adjust the origin to match the parent
                 );
             }
 
             // Example usage
-            sendMessageToParent('getInteractionData', {});
+            sendMessageToParent('getInteractionData', 'getInteractionData()');
         </script>
     </head>
     <body>
         grandchild1 iframe
 
-        <button onclick="sendMessageToParent('getInteractionData', {})">getUserDetails</button>
+        <button onclick="sendMessageToParent('getInteractionData','getInteractionData()')">
+            getUserDetails
+        </button>
 
         <iframe
             src="https://swapnil.lab.bravishma.com/grandchild2.html"

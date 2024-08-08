@@ -33,9 +33,9 @@ const CognigyCopilotIframe = () => {
             if (event.origin !== 'https://shubham.lab.bravishma.com') return;
 
             if (event.data.type === 'EXECUTE_API') {
-                const { functionName, data } = event.data;
+                const { functionName, functionWithPayload } = event.data;
                 if (widgetApi && typeof widgetApi[functionName] === 'function') {
-                    let resp = data ? widgetApi[functionName](data) : widgetApi[functionName]();
+                    let resp = widgetApi[functionWithPayload];
                     console.log('function resp from iframe===> ', resp);
                 } else {
                     console.error('API function not found:', functionName);

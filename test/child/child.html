@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Child HTML</title>
         <script>
-            function sendMessageToParent(functionName, data) {
+            function sendMessageToParent(functionName, functionWithPayload) {
                 window.parent.postMessage(
-                    { type: 'EXECUTE_API', functionName, data },
+                    { type: 'EXECUTE_API', functionName, functionWithPayload },
                     '*', // Adjust the origin to match the parent
                 );
             }
@@ -37,7 +37,7 @@
                 }
 
                 if (event.data.type === 'EXECUTE_API') {
-                    sendMessageToParent(event.data.functionName, event.data.data);
+                    sendMessageToParent(event.data.functionName, event.data.functionWithPayload);
                 }
             });
         </script>
