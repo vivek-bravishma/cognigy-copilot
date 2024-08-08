@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grandchild 1 HTML</title>
+        <script>
+            window.addEventListener('message', (event) => {
+                if (event.data.type === 'SET_WIDGET_API') {
+                    window.widgetApi = event.data.api;
+
+                    // Example usage
+                    window.widgetApi.getUserDetails();
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <iframe
+            src="http://127.0.0.1:5500/grandchild2.html"
+            width="200"
+            height="150"
+            title="Grandchild 2 Iframe"
+        ></iframe>
+    </body>
+</html>

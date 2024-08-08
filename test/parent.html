@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Parent HTML</title>
+        <script>
+            const widgetApi = {
+                getUserDetails: () => {
+                    alert('User details');
+                },
+                sendMessage: () => {
+                    alert('Message sent');
+                },
+            };
+
+            window.addEventListener('message', (event) => {
+                if (event.data.type === 'SET_WIDGET_API') {
+                    const iframe = document.querySelector('iframe');
+                    if (iframe && iframe.contentWindow) {
+                        iframe.contentWindow.postMessage(
+                            { type: 'SET_WIDGET_API', api: widgetApi },
+                            'http://127.0.0.1:5500', // Target origin of the child iframe
+                        );
+                    }
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <iframe
+            src="http://127.0.0.1:5500/child.html"
+            width="600"
+            height="400"
+            title="Child Iframe"
+        ></iframe>
+    </body>
+</html>
