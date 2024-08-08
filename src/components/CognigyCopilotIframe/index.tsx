@@ -29,7 +29,7 @@ const CognigyCopilotIframe = () => {
 
     useEffect(() => {
         const iframe = iframeRef.current;
-        if (iframe) {
+        if (iframe && widgetApi) {
             const sendApiToIframe = () => {
                 if (iframe && iframe.contentWindow) {
                     iframe.contentWindow.postMessage(
@@ -46,7 +46,7 @@ const CognigyCopilotIframe = () => {
                 iframe.removeEventListener('load', sendApiToIframe);
             };
         }
-    }, [copilotUrl]);
+    }, [copilotUrl, widgetApi]);
 
     useEffect(() => {
         if (apiInteractionData !== null && apiInteractionData !== undefined) {
