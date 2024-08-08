@@ -12,8 +12,8 @@
                     window.widgetApi = event.data.api;
 
                     // Example usage
-                    window.widgetApi?.getInteractionData();
-                    console.log('getInteractionData from grandchild1');
+                    let interactionData = window.widgetApi?.getInteractionData();
+                    console.log('getInteractionData from grandchild1==> ', interactionData);
                 }
             });
         </script>

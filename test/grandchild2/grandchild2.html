@@ -6,6 +6,8 @@
         <title>Grandchild 2 HTML</title>
         <script>
             window.addEventListener('message', (event) => {
+                console.log('adding event listener in grandchild 1==> ', event);
+
                 if (event.data.type === 'SET_WIDGET_API') {
                     window.widgetApi = event.data.api;
 
