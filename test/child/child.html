@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Child HTML</title>
         <script>
+            function sendMessageToParent(functionName, data) {
+                window.parent.postMessage(
+                    { type: 'EXECUTE_API', functionName, data },
+                    '*', // Adjust the origin to match the parent
+                );
+            }
+
             window.addEventListener('message', (event) => {
                 console.log('adding event listener in child ==> ', event);
 
@@ -27,6 +34,10 @@
                     }
 
                     forwardApiToAllNestedIframes();
+                }
+
+                if (event.data.type === 'EXECUTE_API') {
+                    sendMessageToParent(event.data.functionName, event.data.data);
                 }
             });
         </script>

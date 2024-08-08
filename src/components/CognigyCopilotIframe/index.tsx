@@ -28,12 +28,40 @@ const CognigyCopilotIframe = () => {
     // (window as any).handleMessage = handleMessage;
 
     useEffect(() => {
+        const handleMessage = (event: MessageEvent) => {
+            // Ensure the message comes from a trusted origin
+            if (event.origin !== 'https://shubham.lab.bravishma.com') return;
+
+            if (event.data.type === 'EXECUTE_API') {
+                const { functionName, data } = event.data;
+                if (widgetApi && typeof widgetApi[functionName] === 'function') {
+                    let resp = data ? widgetApi[functionName](data) : widgetApi[functionName]();
+                    console.log('function resp from iframe===> ', resp);
+                } else {
+                    console.error('API function not found:', functionName);
+                }
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        };
+    }, [widgetApi]);
+
+    useEffect(() => {
         const iframe = iframeRef.current;
         if (iframe && widgetApi) {
             const sendApiToIframe = () => {
                 if (iframe && iframe.contentWindow) {
                     iframe.contentWindow.postMessage(
-                        { type: 'SET_WIDGET_API', api: widgetApi },
+                        {
+                            type: 'SET_WIDGET_API',
+                            api: widgetApi,
+                            interactionId: interactionId,
+                            apiInteractionData: apiInteractionData,
+                        },
                         copilotUrl,
                     );
                     console.log('message posted from cognigy copilot to copilot iframe ');

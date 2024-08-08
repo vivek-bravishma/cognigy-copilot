@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Grandchild 1 HTML</title>
         <script>
-            console.log('hi');
             window.addEventListener('message', (event) => {
                 console.log('adding event listener in grandchild 1==> ', event);
                 if (event.data.type === 'SET_WIDGET_API') {
@@ -16,10 +15,22 @@
                     console.log('getInteractionData from grandchild1==> ', interactionData);
                 }
             });
+
+            function sendMessageToParent(functionName, data) {
+                window.parent.postMessage(
+                    { type: 'EXECUTE_API', functionName, data },
+                    '*', // Adjust the origin to match the parent
+                );
+            }
+
+            // Example usage
+            sendMessageToParent('getInteractionData', {});
         </script>
     </head>
     <body>
         grandchild1 iframe
+
+        <button onclick="sendMessageToParent('getInteractionData', {})">getUserDetails</button>
 
         <iframe
             src="https://swapnil.lab.bravishma.com/grandchild2.html"

@@ -16,9 +16,22 @@
                     console.log('sending message from grandchild2');
                 }
             });
+
+            function sendMessageToParent(functionName, data) {
+                window.parent.postMessage(
+                    { type: 'EXECUTE_API', functionName, data },
+                    'https://shubham.lab.bravishma.com', // Adjust the origin to match the parent
+                );
+            }
+
+            // Example usage
+            sendMessageToParent('sendChatMessage', { message: 'Hi there!' });
         </script>
     </head>
     <body>
-        <h1>Grandchild 2</h1>
+        <h3>Grandchild 2</h3>
+        <button onclick="sendMessageToParent('sendChatMessage', { message: 'Hi there!' })">
+            send message
+        </button>
     </body>
 </html>
