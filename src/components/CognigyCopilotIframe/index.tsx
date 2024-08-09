@@ -31,7 +31,7 @@ const CognigyCopilotIframe = () => {
         const handleMessage = (event: MessageEvent) => {
             console.log('handleMessage event iframe===> ', event);
 
-            const wapi = widgetApi(interactionId);
+            const wapi = (window as any)?.WS?.widgetAPI(interactionId);
 
             // Ensure the message comes from a trusted origin
             if (event.origin !== 'https://shubham.lab.bravishma.com') return;
