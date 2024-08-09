@@ -4,7 +4,8 @@ import { useWidgetApi } from '../../contexts/WidgetApiContext';
 import axios from 'axios';
 
 const CognigyCopilotIframe = () => {
-    const [copilotUrl, setCopilotUrl] = useState('https://shubham.lab.bravishma.com/child.html');
+    const [copilotUrl, setCopilotUrl] = useState('');
+    // const [copilotUrl, setCopilotUrl] = useState('https://shubham.lab.bravishma.com/child.html');
     const { widgetApi, interactionId, apiInteractionData } = useWidgetApi();
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
@@ -27,66 +28,66 @@ const CognigyCopilotIframe = () => {
 
     // (window as any).handleMessage = handleMessage;
 
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            console.log('handleMessage event iframe===> ', event);
+    // useEffect(() => {
+    //     const handleMessage = (event: MessageEvent) => {
+    //         console.log('handleMessage event iframe===> ', event);
 
-            const wapi = (window as any)?.WS?.widgetAPI(interactionId);
+    //         const wapi = (window as any)?.WS?.widgetAPI(interactionId);
 
-            // Ensure the message comes from a trusted origin
-            if (event.origin !== 'https://shubham.lab.bravishma.com') return;
+    //         // Ensure the message comes from a trusted origin
+    //         if (event.origin !== 'https://shubham.lab.bravishma.com') return;
 
-            if (event.data.type === 'EXECUTE_API') {
-                const { functionName, params } = event.data;
-                if (wapi && typeof wapi[functionName] === 'function') {
-                    // let resp = widgetApi[functionWithPayload];
-                    // let resp = eval(`${widgetApi}.${functionWithPayload}`);
-                    // console.log('function resp from iframe===> ', resp);
-                    if (params.length === 0) {
-                        let resp = wapi[functionName]();
-                        console.log('function resp from iframe===> ', resp);
-                    } else {
-                        let resp = wapi[functionName](...params);
-                        console.log('function resp from iframe===> ', resp);
-                    }
-                } else {
-                    console.error('API function not found:', functionName);
-                }
-            }
-        };
+    //         if (event.data.type === 'EXECUTE_API') {
+    //             const { functionName, params } = event.data;
+    //             if (wapi && typeof wapi[functionName] === 'function') {
+    //                 // let resp = widgetApi[functionWithPayload];
+    //                 // let resp = eval(`${widgetApi}.${functionWithPayload}`);
+    //                 // console.log('function resp from iframe===> ', resp);
+    //                 if (params.length === 0) {
+    //                     let resp = wapi[functionName]();
+    //                     console.log('function resp from iframe===> ', resp);
+    //                 } else {
+    //                     let resp = wapi[functionName](...params);
+    //                     console.log('function resp from iframe===> ', resp);
+    //                 }
+    //             } else {
+    //                 console.error('API function not found:', functionName);
+    //             }
+    //         }
+    //     };
 
-        window.addEventListener('message', handleMessage);
+    //     window.addEventListener('message', handleMessage);
 
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        };
-    }, [widgetApi]);
+    //     return () => {
+    //         window.removeEventListener('message', handleMessage);
+    //     };
+    // }, [widgetApi]);
 
-    useEffect(() => {
-        const iframe = iframeRef.current;
-        if (iframe && widgetApi) {
-            const sendApiToIframe = () => {
-                if (iframe && iframe.contentWindow) {
-                    iframe.contentWindow.postMessage(
-                        {
-                            type: 'SET_WIDGET_API',
-                            api: widgetApi,
-                            interactionId: interactionId,
-                            apiInteractionData: apiInteractionData,
-                        },
-                        copilotUrl,
-                    );
-                    console.log('message posted from cognigy copilot to copilot iframe ');
-                }
-            };
+    // useEffect(() => {
+    //     const iframe = iframeRef.current;
+    //     if (iframe && widgetApi) {
+    //         const sendApiToIframe = () => {
+    //             if (iframe && iframe.contentWindow) {
+    //                 iframe.contentWindow.postMessage(
+    //                     {
+    //                         type: 'SET_WIDGET_API',
+    //                         api: widgetApi,
+    //                         interactionId: interactionId,
+    //                         apiInteractionData: apiInteractionData,
+    //                     },
+    //                     copilotUrl,
+    //                 );
+    //                 console.log('message posted from cognigy copilot to copilot iframe ');
+    //             }
+    //         };
 
-            iframe.addEventListener('load', sendApiToIframe);
+    //         iframe.addEventListener('load', sendApiToIframe);
 
-            return () => {
-                iframe.removeEventListener('load', sendApiToIframe);
-            };
-        }
-    }, [copilotUrl, widgetApi]);
+    //         return () => {
+    //             iframe.removeEventListener('load', sendApiToIframe);
+    //         };
+    //     }
+    // }, [copilotUrl, widgetApi]);
 
     useEffect(() => {
         if (apiInteractionData !== null && apiInteractionData !== undefined) {
@@ -139,8 +140,8 @@ const CognigyCopilotIframe = () => {
                         console.log('response from mongodb call from voice => ', response.data);
                         let copilotUrl = response.data.documents[0].copilot;
                         console.log('Copilot url through api==> ', copilotUrl);
-                        // setCopilotUrl(copilotUrl);
-                        setCopilotUrl('https://shubham.lab.bravishma.com/child.html');
+                        setCopilotUrl(copilotUrl);
+                        // setCopilotUrl('https://shubham.lab.bravishma.com/child.html');
                     })
                     .catch((error) => {
                         console.log('Error fetching copilot url for Voice from mongodb==> ', error);
@@ -164,8 +165,8 @@ const CognigyCopilotIframe = () => {
                     console.log('Engagement engObj?.copilot==> ', copilot);
                     console.log('Engagement engObj?.copilot type ==> ', typeof copilot);
 
-                    // setCopilotUrl(copilot);
-                    setCopilotUrl('https://shubham.lab.bravishma.com/child.html');
+                    setCopilotUrl(copilot);
+                    // setCopilotUrl('https://shubham.lab.bravishma.com/child.html');
                 }
             }
         }
