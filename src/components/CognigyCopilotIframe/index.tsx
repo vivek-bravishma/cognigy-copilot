@@ -31,20 +31,22 @@ const CognigyCopilotIframe = () => {
         const handleMessage = (event: MessageEvent) => {
             console.log('handleMessage event iframe===> ', event);
 
+            const wapi = widgetApi(interactionId);
+
             // Ensure the message comes from a trusted origin
             if (event.origin !== 'https://shubham.lab.bravishma.com') return;
 
             if (event.data.type === 'EXECUTE_API') {
                 const { functionName, params } = event.data;
-                if (widgetApi && typeof widgetApi[functionName] === 'function') {
+                if (wapi && typeof wapi[functionName] === 'function') {
                     // let resp = widgetApi[functionWithPayload];
                     // let resp = eval(`${widgetApi}.${functionWithPayload}`);
                     // console.log('function resp from iframe===> ', resp);
                     if (params.length === 0) {
-                        let resp = widgetApi[functionName]();
+                        let resp = wapi[functionName]();
                         console.log('function resp from iframe===> ', resp);
                     } else {
-                        let resp = widgetApi[functionName](...params);
+                        let resp = wapi[functionName](...params);
                         console.log('function resp from iframe===> ', resp);
                     }
                 } else {
