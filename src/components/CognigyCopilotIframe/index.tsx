@@ -36,7 +36,7 @@ const CognigyCopilotIframe = () => {
                 const { functionName, functionWithPayload } = event.data;
                 if (widgetApi && typeof widgetApi[functionName] === 'function') {
                     // let resp = widgetApi[functionWithPayload];
-                    let resp = eval(`widgetApi.${functionWithPayload}`);
+                    let resp = eval(`${widgetApi}.${functionWithPayload}`);
                     console.log('function resp from iframe===> ', resp);
                 } else {
                     console.error('API function not found:', functionName);
