@@ -17,21 +17,35 @@
                 }
             });
 
-            function sendMessageToParent(functionName, functionWithPayload) {
+            function sendMessageToParent(functionName, params) {
                 window.parent.postMessage(
-                    { type: 'EXECUTE_API', functionName, functionWithPayload },
+                    { type: 'EXECUTE_API', functionName, params },
                     '*', // Adjust the origin to match the parent
                 );
             }
 
             // Example usage
             // sendMessageToParent('sendChatMessage', 'sendChatMessage(`hi there`)');
+
+            function handleSubmit(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                // Get the value from the input field
+                const inputValue = document.getElementById('messageInput').value;
+
+                // Call the sendMessageToParent function
+                sendMessageToParent('sendChatMessage', [inputValue]);
+            }
         </script>
     </head>
     <body>
         <h3>Grandchild 2</h3>
-        <button onclick="sendMessageToParent('sendChatMessage', 'sendChatMessage(`hi there`)')">
-            send message
-        </button>
+        <!-- <button onclick="sendMessageToParent('sendChatMessage', ['hi there'])">send message</button>
+          -->
+        <form onsubmit="handleSubmit(event)">
+            <label for="messageInput">Message:</label>
+            <input type="text" id="messageInput" name="messageInput" required />
+            <button type="submit">Send</button>
+        </form>
     </body>
 </html>

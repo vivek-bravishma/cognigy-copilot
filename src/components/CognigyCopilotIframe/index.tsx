@@ -29,15 +29,24 @@ const CognigyCopilotIframe = () => {
 
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
+            console.log('handleMessage event iframe===> ', event);
+
             // Ensure the message comes from a trusted origin
             if (event.origin !== 'https://shubham.lab.bravishma.com') return;
 
             if (event.data.type === 'EXECUTE_API') {
-                const { functionName, functionWithPayload } = event.data;
+                const { functionName, params } = event.data;
                 if (widgetApi && typeof widgetApi[functionName] === 'function') {
                     // let resp = widgetApi[functionWithPayload];
-                    let resp = eval(`${widgetApi}.${functionWithPayload}`);
-                    console.log('function resp from iframe===> ', resp);
+                    // let resp = eval(`${widgetApi}.${functionWithPayload}`);
+                    // console.log('function resp from iframe===> ', resp);
+                    if (params.length === 0) {
+                        let resp = widgetApi[functionName]();
+                        console.log('function resp from iframe===> ', resp);
+                    } else {
+                        let resp = widgetApi[functionName](...params);
+                        console.log('function resp from iframe===> ', resp);
+                    }
                 } else {
                     console.error('API function not found:', functionName);
                 }
