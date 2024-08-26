@@ -112,7 +112,9 @@ const CognigyCopilotIframe = () => {
                     copilotUrlSessionId = apiInteractionData?.intrinsics?.CALLER_NUMBER;
                 } else {
                     engObj = JSON.parse(ENGAGEMENT_PARAMETERS);
-                    copilotUrlSessionId = engObj?.copiloturl_sessionid;
+                    copilotUrlSessionId = engObj?.copiloturl_sessionid
+                        ? engObj?.copiloturl_sessionid
+                        : apiInteractionData?.intrinsics?.CALLER_NUMBER;
                 }
 
                 let data = JSON.stringify({
